@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            var json = {
+                "alunos":[
+                    {"nome":"José", "matricula":"1"},
+                    {"nome":"Maria", "matricula":"2"},
+                    {"nome":"Helena", "matricula":"3"}
+                ]
+            };
+
+            for(var i = 0; i < json.alunos.length; i++){
+                console.log(json.alunos[i].nome + " - " + json.alunos[i].matricula);
+            }
+
+            console.table(json.alunos);
+        </script>
+    </head>
+</html>
