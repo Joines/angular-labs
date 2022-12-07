@@ -36,6 +36,10 @@ namespace Proeventos.API.Controllers
         [HttpPost]
         public string PostTeste([FromForm] Evento evento)
         {
+
+            if(_context.Eventos.Any(e => e.EventoId == evento.EventoId))
+                return "Evento já existe!";
+            
             _context.Eventos.Add(evento);
             _context.SaveChanges();
 
