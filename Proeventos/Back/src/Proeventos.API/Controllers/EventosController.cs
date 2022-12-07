@@ -6,6 +6,7 @@ using Back.src.Proeventos.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proeventos.API.Models;
+using Proeventos.Back.src.Proeventos.API.Data;
 
 namespace Proeventos.API.Controllers
 {
@@ -13,39 +14,30 @@ namespace Proeventos.API.Controllers
     [Route("api/[controller]")]
     public class EventosController : ControllerBase
     {
-        public static IList<Evento> _eventos =  new List<Evento>
-            {
-                new Evento {
-                EventoId = 1,
-                Tema = "Angular and .NET 5",
-                Local = "Belo Horizonte",
-                Lote = "1º lote",
-                QtdPessoas = 250,
-                DataEvento = "04/12/2022" }
-            };
-
-        public EventosController()
+        private readonly DataContext _context;
+        
+        public EventosController(DataContext context)
         {
-
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<Evento> Get()
         {
-            return _eventos;
+            return _context.Eventos;
         }
 
         [HttpGet("{id}")]
         public Evento GetById(int id)
         {
-            return _eventos.FirstOrDefault(e => e.EventoId == id);
+            return _context.Eventos.FirstOrDefault(e => e.EventoId == id);
         }
 
         [HttpPost]
         public string PostTeste([FromForm] Evento evento)
         {
-
-            _eventos.Add(evento);
+            _context.Eventos.Add(evento);
+            _context.SaveChanges();
 
             return $"Evento criado com sucesso: \n\rEvento Id: {evento.EventoId} " +
                    $"\n\rTema: {evento.Tema}\n\rLocal: {evento.Local}" +
